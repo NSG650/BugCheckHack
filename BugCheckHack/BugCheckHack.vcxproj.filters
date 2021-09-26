@@ -37,9 +37,6 @@
     <ClInclude Include="common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="types.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="overwrite.h">
       <Filter>Header Files</Filter>
     </ClInclude>

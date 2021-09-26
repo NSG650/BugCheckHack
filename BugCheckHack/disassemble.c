@@ -2,7 +2,6 @@
 #include <ntddk.h>
 #include <Zydis/Zydis.h>
 #include "common.h"
-#include "types.h"
 
 UINT64 Disassemble_KeBugCheck2(UINT64* Result) {
 	UNICODE_STRING FunctionName;

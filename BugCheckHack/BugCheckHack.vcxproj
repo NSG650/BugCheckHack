@@ -237,7 +237,6 @@
     <ClInclude Include="common.h" />
     <ClInclude Include="disassemble.h" />
     <ClInclude Include="overwrite.h" />
-    <ClInclude Include="types.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
