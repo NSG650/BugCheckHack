@@ -5,7 +5,6 @@
 #include "overwrite.h"
 
 DRIVER_INITIALIZE DriverEntry;
-PBSOD_INFORMATION BsodInformation = { 0 };
 
 NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath) {
     UNREFERENCED_PARAMETER(RegistryPath);
@@ -28,7 +27,9 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath) 
     UINT64 HalPCIConfigReadHandlers_0x18;
     UINT64 EtwpLastBranchEntry_Address;
     UINT64 EtwpLastBranchEntry2_Address;
-    Disassemble_HalpPCIConfigReadHandlers((PVOID)BgpFwDisplayBugCheckScreen_Address, &HalPCIConfigReadHandlers_0x18, &EtwpLastBranchEntry_Address, &EtwpLastBranchEntry2_Address);
+    if (!Disassemble_HalpPCIConfigReadHandlers((PVOID)BgpFwDisplayBugCheckScreen_Address, &HalPCIConfigReadHandlers_0x18, &EtwpLastBranchEntry_Address, &EtwpLastBranchEntry2_Address)) {
+        return STATUS_DRIVER_INTERNAL_ERROR;
+    }
     Print("KeBugCheck2 located at %llx\n", KeBugCheck2_Address);
     Print("KiDisplayBlueScreen located at %llx\n", KiDisplayBlueScreen_Address);
     Print("BgpFwDisplayBugCheckScreen located at %llx\n", BgpFwDisplayBugCheckScreen_Address);
