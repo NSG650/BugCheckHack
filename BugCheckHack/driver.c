@@ -3,7 +3,6 @@
 #include "disassemble.h"
 #include "common.h"
 #include "overwrite.h"
-#include "types.h"
 
 DRIVER_INITIALIZE DriverEntry;
 PBSOD_INFORMATION BsodInformation = { 0 };
