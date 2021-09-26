@@ -111,7 +111,7 @@ UINT64 Disassemble_HalpPCIConfigReadHandlers(PVOID BgpFwDisplayBugCheckScreenAdd
 		}
 		UINT64 InstrAddress = (UINT64)((UINT64)BgpFwDisplayBugCheckScreenAddress + ReadOffset);
 		ZydisFormatterFormatInstruction(&Formatter, &Instruction, PrintBuffer, sizeof(PrintBuffer), InstrAddress);
-		Print("+%-4X 0x%-16llX\t\t%hs\n", (ULONG)ReadOffset, InstrAddress, PrintBuffer);
+		// Print("+%-4X 0x%-16llX\t\t%hs\n", (ULONG)ReadOffset, InstrAddress, PrintBuffer);
 		if ((ULONG)ReadOffset == 0x116) {
 			Print("Found HalpPCIConfigReadHandlers+0x18\n");
 			*Result1 = _strtoui64(&PrintBuffer[10], NULL, 16);
