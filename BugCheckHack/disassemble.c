@@ -26,7 +26,7 @@ UINT64 Disassemble_KeBugCheck2(UINT64* Result) {
 		}
 		CONST UINT64 InstrAddress = (UINT64)((UINT64)KeBugCheckExAddress + ReadOffset);
 		ZydisFormatterFormatInstruction(&Formatter, &Instruction, PrintBuffer, sizeof(PrintBuffer), InstrAddress);
-		//Print("+%-4X 0x%-16llX\t\t%hs\n", (ULONG)ReadOffset, InstrAddress, PrintBuffer);
+		// Print("+%-4X 0x%-16llX\t\t%hs\n", (ULONG)ReadOffset, InstrAddress, PrintBuffer);
 		if ((ULONG)ReadOffset == 0x119) {
 			Print("Found KeBugCheck2\n");
 			*Result = _strtoui64(&PrintBuffer[5], NULL, 16);
@@ -54,8 +54,8 @@ UINT64 Disassemble_KiDisplayBlueScreen(PVOID KeBugCheck2Address, UINT64* Result)
 		}
 		CONST UINT64 InstrAddress = (UINT64)((UINT64)KeBugCheck2Address + ReadOffset);
 		ZydisFormatterFormatInstruction(&Formatter, &Instruction, PrintBuffer, sizeof(PrintBuffer), InstrAddress);
-		//Print("+%-4X 0x%-16llX\t\t%hs\n", (ULONG)ReadOffset, InstrAddress, PrintBuffer);
-		if ((ULONG)ReadOffset == 0xA5d) {
+		// Print("+%-4X 0x%-16llX\t\t%hs\n", (ULONG)ReadOffset, InstrAddress, PrintBuffer);
+		if ((ULONG)ReadOffset == /*0xA5d*/ 0xb95) {
 			Print("Found KiDisplayBlueScreen\n");
 			*Result = _strtoui64(&PrintBuffer[5], NULL, 16);
 			return 1;
@@ -82,7 +82,7 @@ UINT64 Disassemble_BgpFwDisplayBugCheckScreen(PVOID KiDisplayBlueScreenAddress, 
 		}
 		CONST UINT64 InstrAddress = (UINT64)((UINT64)KiDisplayBlueScreenAddress + ReadOffset);
 		ZydisFormatterFormatInstruction(&Formatter, &Instruction, PrintBuffer, sizeof(PrintBuffer), InstrAddress);
-		//Print("+%-4X 0x%-16llX\t\t%hs\n", (ULONG)ReadOffset, InstrAddress, PrintBuffer);
+		// Print("+%-4X 0x%-16llX\t\t%hs\n", (ULONG)ReadOffset, InstrAddress, PrintBuffer);
 		if ((ULONG)ReadOffset == 0x240) {
 			Print("Found BgpFwDisplayBugCheckScreen\n");
 			*Result = _strtoui64(&PrintBuffer[5], NULL, 16);
@@ -110,17 +110,17 @@ UINT64 Disassemble_HalpPCIConfigReadHandlers(PVOID BgpFwDisplayBugCheckScreenAdd
 		}
 		UINT64 InstrAddress = (UINT64)((UINT64)BgpFwDisplayBugCheckScreenAddress + ReadOffset);
 		ZydisFormatterFormatInstruction(&Formatter, &Instruction, PrintBuffer, sizeof(PrintBuffer), InstrAddress);
-		// Print("+%-4X 0x%-16llX\t\t%hs\n", (ULONG)ReadOffset, InstrAddress, PrintBuffer);
-		if ((ULONG)ReadOffset == 0x116) {
+	    // Print("+%-4X 0x%-16llX\t\t%hs\n", (ULONG)ReadOffset, InstrAddress, PrintBuffer);
+		if ((ULONG)ReadOffset == /*0x116*/ 0x10f) {
 			Print("Found HalpPCIConfigReadHandlers+0x18\n");
 			*Result1 = _strtoui64(&PrintBuffer[10], NULL, 16);
 		}
-		if ((ULONG)ReadOffset == 0x132) {
+		if ((ULONG)ReadOffset == /*0x132*/ 0x15b) {
 			Print("FoundEtwpLastBranchLookAsideList+0x60\n");
-			*Result2 = _strtoui64(&PrintBuffer[10], NULL, 16);
+			*Result2 = (_strtoui64(&PrintBuffer[10], NULL, 16) - 0x150) + 0x60;
 			PUNICODE_STRING temp = (PUNICODE_STRING)_strtoui64(&PrintBuffer[10], NULL, 16);
 			for (UINT8 i = 0; i < sizeof(UNICODE_STRING); i++, temp++) {
-				// Print("%ls\n", temp->Buffer);
+			   // Print("%ls\n", temp->Buffer);
 				if (wcsstr(temp->Buffer, L"and then we'll restart for you")) {
 					*Result3 = (UINT64)temp;
 				}
