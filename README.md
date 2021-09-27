@@ -12,7 +12,9 @@ bcdedit /set testsigning on
 sc create BugCheckHack binPath=C:\where\ever\the\driver\is\BugCheckHack.sys type=kernel start=auto
 ```
 3) Create a registry key at HKLM\SOFTWARE and called it BugCheckHack
-4) Create 3 string values and name them String1, String2 and Emoticon put your desired text in them.
+4) Create the following registry value keys shown in the image below
+
+![Registry](https://cdn.discordapp.com/attachments/743660463287697448/891914610368708639/unknown.png)
 
 5) Now run the driver with
 ```
@@ -23,4 +25,4 @@ sc start BugCheckHack
 
 # Image
 
-![Funny Image](https://cdn.discordapp.com/attachments/413430340388913171/891746727663640606/unknown.png)
+![Funny Image](https://cdn.discordapp.com/attachments/743660463287697448/891915007955193856/unknown.png)
