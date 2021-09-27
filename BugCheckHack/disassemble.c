@@ -93,7 +93,7 @@ UINT64 Disassemble_BgpFwDisplayBugCheckScreen(PVOID KiDisplayBlueScreenAddress, 
 	return 0;
 }
 
-UINT64 Disassemble_HalpPCIConfigReadHandlers(PVOID BgpFwDisplayBugCheckScreenAddress, UINT64* Result1, UINT64* Result2, UINT64* Result3) {
+UINT64 Disassemble_HalpPCIConfigReadHandlers(PVOID BgpFwDisplayBugCheckScreenAddress, UINT64* Result1, UINT64* Result2, UINT64* Result3, UINT64* Result4, UINT64* Result5, UINT64* Result6) {
 	ZydisDecoder Decoder;
 	ZydisDecoderInit(&Decoder, ZYDIS_MACHINE_MODE_LONG_64, ZYDIS_ADDRESS_WIDTH_64);
 	ZydisFormatter Formatter;
@@ -120,8 +120,18 @@ UINT64 Disassemble_HalpPCIConfigReadHandlers(PVOID BgpFwDisplayBugCheckScreenAdd
 			*Result2 = _strtoui64(&PrintBuffer[10], NULL, 16);
 			PUNICODE_STRING temp = (PUNICODE_STRING)_strtoui64(&PrintBuffer[10], NULL, 16);
 			for (UINT8 i = 0; i < sizeof(UNICODE_STRING); i++, temp++) {
-				if (wcsstr(temp->Buffer, L"and then we'll restart for you") != 0) {
+				// Print("%ls\n", temp->Buffer);
+				if (wcsstr(temp->Buffer, L"and then we'll restart for you")) {
 					*Result3 = (UINT64)temp;
+				}
+				if (wcsstr(temp->Buffer, L"www.windows.com/stopcode")) {
+					*Result4 = (UINT64)temp;
+				}
+				if (wcsstr(temp->Buffer, L"this issue and possible fixes, visit")) {
+					*Result5 = (UINT64)temp;
+				}
+				if (wcsstr(temp->Buffer, L"give them this info:")) {
+					*Result6 = (UINT64)temp;
 				}
 			}
 			return 1;
