@@ -117,7 +117,7 @@ UINT64 Disassemble_HalpPCIConfigReadHandlers(PVOID BgpFwDisplayBugCheckScreenAdd
 		}
 		if ((ULONG)ReadOffset == /*0x132*/ 0x15b) {
 			Print("FoundEtwpLastBranchLookAsideList+0x60 \n");
-			// *Result2 = (_strtoui64(&PrintBuffer[10], NULL, 16) - 0x150) + 0x60;
+			*Result2 = (_strtoui64(&PrintBuffer[10], NULL, 16) - 0x150) + 0x60;
 			PUNICODE_STRING temp = (PUNICODE_STRING)((_strtoui64(&PrintBuffer[10], NULL, 16) - 0x150) + 0x60);
 			for (UINT8 i = 0; i < sizeof(UNICODE_STRING); i++, temp++) {
 			    Print("%ls\n", temp->Buffer);

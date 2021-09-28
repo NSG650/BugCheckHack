@@ -82,7 +82,7 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath) 
     regStatus = RtlQueryRegistryValues(RTL_REGISTRY_ABSOLUTE, L"\\Registry\\Machine\\Software\\BugCheckHack", query, NULL, NULL);
     
     if (regStatus != STATUS_SUCCESS)
-        RtlInitUnicodeString(&Emoticon, L":)");
+        RtlInitUnicodeString(&Emoticon, L":) ");
     
     if (OverwriteFrowny(HalPCIConfigReadHandlers_0x18, &Emoticon) != STATUS_SUCCESS)
         return STATUS_DRIVER_INTERNAL_ERROR;
