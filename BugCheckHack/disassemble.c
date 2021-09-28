@@ -116,23 +116,21 @@ UINT64 Disassemble_HalpPCIConfigReadHandlers(PVOID BgpFwDisplayBugCheckScreenAdd
 			*Result1 = _strtoui64(&PrintBuffer[10], NULL, 16);
 		}
 		if ((ULONG)ReadOffset == /*0x132*/ 0x15b) {
-			Print("FoundEtwpLastBranchLookAsideList+0x60\n");
-			*Result2 = (_strtoui64(&PrintBuffer[10], NULL, 16) - 0x150) + 0x60;
-			PUNICODE_STRING temp = (PUNICODE_STRING)_strtoui64(&PrintBuffer[10], NULL, 16);
+			Print("FoundEtwpLastBranchLookAsideList+0x60 \n");
+			// *Result2 = (_strtoui64(&PrintBuffer[10], NULL, 16) - 0x150) + 0x60;
+			PUNICODE_STRING temp = (PUNICODE_STRING)((_strtoui64(&PrintBuffer[10], NULL, 16) - 0x150) + 0x60);
 			for (UINT8 i = 0; i < sizeof(UNICODE_STRING); i++, temp++) {
-			   // Print("%ls\n", temp->Buffer);
-				if (wcsstr(temp->Buffer, L"and then we'll restart for you")) {
+			    Print("%ls\n", temp->Buffer);
+				if (wcsstr(temp->Buffer, L"Insider Build ran into a problem and needs to restart."))
+					*Result2 = (UINT64)temp;
+				if (wcsstr(temp->Buffer, L"and then we'll restart for you"))
 					*Result3 = (UINT64)temp;
-				}
-				if (wcsstr(temp->Buffer, L"www.windows.com/stopcode")) {
+				if (wcsstr(temp->Buffer, L"www.windows.com/stopcode"))
 					*Result4 = (UINT64)temp;
-				}
-				if (wcsstr(temp->Buffer, L"this issue and possible fixes, visit")) {
+				if (wcsstr(temp->Buffer, L"this issue and possible fixes, visit"))
 					*Result5 = (UINT64)temp;
-				}
-				if (wcsstr(temp->Buffer, L"give them this info:")) {
+				if (wcsstr(temp->Buffer, L"give them this info:"))
 					*Result6 = (UINT64)temp;
-				}
 			}
 			return 1;
 		}
