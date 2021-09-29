@@ -11,7 +11,7 @@ static UINT32 PreReleaseColor(VOID) {
 	query[0].Name = L"DisplayPreReleaseColor";
 	query[0].Flags = RTL_QUERY_REGISTRY_DIRECT;
 	query[0].EntryContext = &Enabled;
-	RegStatus = RtlQueryRegistryValues(RTL_REGISTRY_ABSOLUTE, L"\\Registry\\Machine\\System\\CurrentControlSet\Control\CrashControl", query, NULL, NULL);
+	RegStatus = RtlQueryRegistryValues(RTL_REGISTRY_ABSOLUTE, L"\\Registry\\Machine\\System\\CurrentControlSet\\Control\\CrashControl", query, NULL, NULL);
 	if (RegStatus != STATUS_SUCCESS)
 		return 1;
 	return Enabled;
