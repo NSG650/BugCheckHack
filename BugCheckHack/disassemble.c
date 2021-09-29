@@ -3,6 +3,20 @@
 #include <Zydis/Zydis.h>
 #include "common.h"
 
+static UINT32 PreReleaseColor(VOID) {
+	RTL_QUERY_REGISTRY_TABLE query[2];
+	NTSTATUS RegStatus = 0;
+	UINT32 Enabled;
+	RtlZeroMemory(query, sizeof(RTL_QUERY_REGISTRY_TABLE) * 2);
+	query[0].Name = L"DisplayPreReleaseColor";
+	query[0].Flags = RTL_QUERY_REGISTRY_DIRECT;
+	query[0].EntryContext = &Enabled;
+	RegStatus = RtlQueryRegistryValues(RTL_REGISTRY_ABSOLUTE, L"\\Registry\\Machine\\System\\CurrentControlSet\Control\CrashControl", query, NULL, NULL);
+	if (RegStatus != STATUS_SUCCESS)
+		return 1;
+	return Enabled;
+}
+
 UINT64 Disassemble_KeBugCheck2(UINT64* Result) {
 	UNICODE_STRING FunctionName;
 	RtlInitUnicodeString(&FunctionName, L"KeBugCheckEx");
@@ -121,7 +135,7 @@ UINT64 Disassemble_HalpPCIConfigReadHandlers(PVOID BgpFwDisplayBugCheckScreenAdd
 			PUNICODE_STRING temp = (PUNICODE_STRING)((_strtoui64(&PrintBuffer[10], NULL, 16) - 0x150) + 0x60);
 			for (UINT8 i = 0; i < sizeof(UNICODE_STRING); i++, temp++) {
 			    Print("%ls\n", temp->Buffer);
-				if (wcsstr(temp->Buffer, L"Insider Build ran into a problem and needs to restart."))
+				if (wcsstr(temp->Buffer, L"Insider Build ran into a problem and needs to restart.") && !PreReleaseColor())
 					*Result2 = (UINT64)temp;
 				if (wcsstr(temp->Buffer, L"and then we'll restart for you"))
 					*Result3 = (UINT64)temp;
