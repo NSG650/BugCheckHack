@@ -25,4 +25,4 @@ sc start BugCheckHack
 
 # Image
 
-![Funny Image](https://cdn.discordapp.com/attachments/347451912792178688/891918112218300456/unknown.png)
+![Funny Image](https://cdn.discordapp.com/attachments/743660463287697448/892606433441497148/unknown.png)
